@@ -1,9 +1,11 @@
 ## Example application with various HTTP POST routes.
 
 After downloading, run the following to download the node_modules
+
     npm install
 
-Run the program with 
+Run the program with
+
     node .
 
 GET
