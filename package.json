@@ -1,0 +1,16 @@
+{
+  "name": "hapi-post-example",
+  "version": "0.0.1",
+  "description": "HTTP POST example routes for hapi v1.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/paullang/hapi-post-example.git",
+  "author": "Paul Lang",
+  "license": "BSD",
+  "dependencies": {
+    "hapi": "~1.1.0",
+    "joi": "~0.3.4"
+  }
+}
