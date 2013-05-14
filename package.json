@@ -9,6 +9,9 @@
   "repository": "https://github.com/paullang/hapi-post-example.git",
   "author": "Paul Lang",
   "license": "BSD",
+  "engines": {
+    "node": ">=0.10.5"
+  },
   "dependencies": {
     "hapi": "~1.1.0",
     "joi": "~0.3.4"
