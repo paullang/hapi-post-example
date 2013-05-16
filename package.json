@@ -1,7 +1,7 @@
 {
   "name": "hapi-post-example",
-  "version": "0.0.1",
-  "description": "HTTP POST example routes for hapi v1.1.0",
+  "version": "0.0.2",
+  "description": "HTTP POST example routes for hapi v1.2.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,6 @@
     "node": ">=0.10.5"
   },
   "dependencies": {
-    "hapi": "~1.1.0",
-    "joi": "~0.3.4"
+    "hapi": "~1.2.0"
   }
 }

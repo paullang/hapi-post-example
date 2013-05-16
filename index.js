@@ -1,6 +1,4 @@
 var Hapi = require('hapi');
-var Joi = require('joi');
-
 
 // Create a server with a host and port
 var server = Hapi.createServer('localhost', 8000);
@@ -11,9 +9,7 @@ var getHelloConfig = {
         request.reply({ greeting: 'hello ' + request.query.name });
     },
     validate: {
-        query: {
-            name: Joi.Types.String().required()
-        }
+        query: { name: Hapi.types.String().required() } 
     }
 };
 
@@ -23,10 +19,10 @@ var helloPostHandler = function(request) {
 
 var postHelloConfig = {
     handler: helloPostHandler, 
-    validate: { payload: { name: Joi.Types.String().required() } }
+    validate: { payload: { name: Hapi.types.String().required() } }
 };
 
-// Add the route
+// Add the routes
 server.route([{
         method: 'GET',
         path: '/hello',
@@ -42,6 +38,13 @@ server.route([{
        method: 'POST',
         path: '/hello2',
         handler: helloPostHandler
+    },
+    {
+        method: 'GET',
+        path: '/{path*}',
+        handler: {
+            directory: { path: './public', listing: false, index: true }
+        }
     }
 ]);
 
