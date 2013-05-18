@@ -51,13 +51,19 @@
 	<a id="forms"></a>
 	<h3>HTML Forms</h3>
 
-	<form class="form-inline" action="/hello">
-	<input type="text" name="name" value="" placeholder="name">
-	<button class="btn" onclick="return sendFormFromHTML(this.form);">Submit from HTML</button>
+	<form class="form-inline" method="POST" action="/hello">
+	<input type="text" name="name" value="" placeholder="name" />
+	<input class="btn" type="Submit" value="Submit via HTML" />
 	</form>
 
 	<a id="xhr"></a>
 	<h3>XmlHttpRequest (XHR)</h3>
+
+	<form class="form-inline" action="/hello">
+	<input type="text" name="name" value="" placeholder="name">
+	<button class="btn" onclick="return sendFormFromHTML(this.form);">Submit HTML form via XHR</button>
+	</form>
+
 
 	<button class="btn" onclick="sendFormOnTheFly()">Send dynamically created form data</button>
 	<br /><br />
