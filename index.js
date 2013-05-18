@@ -14,12 +14,19 @@ var getHelloConfig = {
 };
 
 var helloPostHandler = function(request) {
-    request.reply({ greeting: 'POST hello to ' + request.payload.name });
+    console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
+    request.reply({ 
+        greeting: 'POST hello to ' + request.payload.name
+    });
 }
 
 var postHelloConfig = {
     handler: helloPostHandler, 
-    validate: { payload: { name: Hapi.types.String().required() } }
+    validate: { 
+        payload: { 
+            name: Hapi.types.String().required(), 
+            id: Hapi.types.Number().optional().min(100).max(999999999)
+    } }
 };
 
 // Add the routes

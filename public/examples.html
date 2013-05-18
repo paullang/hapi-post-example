@@ -1,16 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hapi.js POST Examples</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="//twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="//twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-<h1>Example XHR requests to Hapi.js</h1>
+  <body>
 
-<pre>
-TODO
-</pre>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Hapi.js POST Examples</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#forms">HTML Forms</a></li>
+              <li><a href="#xhr">XHR</a></li>
+              <li><a href="#files">File Upload</a></li>
+              <li><a href="#canvas">Canvas</a></li>
+              <li><a href="#audio">Audio</a></li>
+              <li><a href="#screenshots">Screenshot</a></li>
+              <li><a href="#canvas">Video</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
-References 
-<ul>
-<li><a href="http://www.html5rocks.com/en/tutorials/file/xhr2/">New Tricks in XMLHttpRequest2</a></li>
-</ul>
+    <div class="container">
+
+	<a id="forms"></a>
+	<h3>HTML Forms</h3>
+
+	<form class="form-inline" action="/hello">
+	<input type="text" name="name" value="" placeholder="name">
+	<button class="btn" onclick="return sendFormFromHTML(this.form);">Submit from HTML</button>
+	</form>
+
+	<a id="xhr"></a>
+	<h3>XmlHttpRequest (XHR)</h3>
+
+	<button class="btn" onclick="sendFormOnTheFly()">Send dynamically created form data</button>
+	<br /><br />
+
+	<button class="btn" onclick="alert('TODO')">Send JSON</button>
 
 
 
+	<a id="files"></a>
+	<h3>File Uploads</h3>
+	TODO
+
+	<a id="canvas"></a>
+	<h3>Canvas</h3>
+	TODO
+
+	<a id="audio"></a>
+	<h3>Audio</h3>
+	TODO
+
+	<a id="screenshot"></a>
+	<h3>Screenshot</h3>
+	TODO
+
+	<a id="video"></a>
+	<h3>Video</h3>
+	TODO
 
 
+	
+	<a id="references"></a>
+	<h3>References</h3>
+	<ul>
+		<li><a href="http://www.html5rocks.com/en/tutorials/file/xhr2/">New Tricks in XMLHttpRequest2</a></li>
+		<li><a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">Reading files in JavaScript using the File APIs</a></li>
+		<li><a href="http://www.html5rocks.com/en/tutorials/getusermedia/intro/">Capturing Audio &amp; Video in HTML5</a></li>
+		<!-- <li><a href="http://twitter.github.io/bootstrap/examples/starter-template.html">Twitter Bootstrap Template</a></li> -->
+	</ul>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript">
+	function alertForm(e, response) {
+		alert(response.responseText)
+	}
+
+	function sendFormFromHTML(form) {
+		var formData = new FormData(form);
+		formData.append('id', '123456'); // alternative to hidden fields
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', form.action, true);
+		xhr.onload = function(e) { alert(this.responseText) };
+
+		xhr.send(formData);
+		return false;
+	}
+
+
+	function sendFormOnTheFly() {
+		var formData = new FormData();
+		formData.append('name', 'paul');
+		formData.append('id', 123456);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/hello', true);
+		xhr.onload = function(e) { alert(this.responseText) };
+        xhr.send(formData);
+    }
+    </script>
+
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
