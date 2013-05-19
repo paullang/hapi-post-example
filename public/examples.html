@@ -68,7 +68,7 @@
 	<button class="btn" onclick="sendFormOnTheFly()">Send dynamically created form data</button>
 	<br /><br />
 
-	<button class="btn" onclick="alert('TODO')">Send JSON</button>
+	<button class="btn" onclick="sendJson()">Send JSON</button>
 
 
 
@@ -116,11 +116,9 @@
 	function sendFormFromHTML(form) {
 		var formData = new FormData(form);
 		formData.append('id', '123456'); // alternative to hidden fields
-
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', form.action, true);
 		xhr.onload = function(e) { alert(this.responseText) };
-
 		xhr.send(formData);
 		return false;
 	}
@@ -130,12 +128,21 @@
 		var formData = new FormData();
 		formData.append('name', 'paul');
 		formData.append('id', 123456);
-
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', '/hello', true);
 		xhr.onload = function(e) { alert(this.responseText) };
-        xhr.send(formData);
-    }
+		xhr.send(formData);
+	}
+
+	function sendJson() {
+		var formData = { "name": "paul from json", "id": 1234567 };
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '/hello', true);
+		xhr.onload = function(e) { alert(this.responseText) };
+		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xhr.send(JSON.stringify(formData));
+	}
+
     </script>
 
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->

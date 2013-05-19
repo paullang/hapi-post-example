@@ -14,6 +14,7 @@ var getHelloConfig = {
 };
 
 var helloPostHandler = function(request) {
+    console.log("rawPayload: " + request.rawPayload);
     console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
     request.reply({ 
         greeting: 'POST hello to ' + request.payload.name
