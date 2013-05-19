@@ -1,4 +1,5 @@
 var Hapi = require('hapi');
+var Fs = require('fs');
 
 // Create a server with a host and port
 var server = Hapi.createServer('localhost', 8000);
@@ -14,8 +15,22 @@ var getHelloConfig = {
 };
 
 var helloPostHandler = function(request) {
-    console.log("rawPayload: " + request.rawPayload);
+    //console.log("rawPayload: " + request.rawPayload);
     console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
+
+    if (request.payload.uploadFile) {
+        var f = request.payload.uploadFile;
+        //console.log(f);
+        console.log("uploadFile " + f.originalFilename + " (" + f.size + " bytes) at " + f.path);
+        console.log("that you should persist to storage and remove from temp folder");
+        // Use fs for this one: http://nodejs.org/api/fs.html
+        Fs.unlink(f.path, function (err) {
+            if (err) throw err;
+                console.log('successfully deleted ' + f.path);
+        });
+        // TODO: find way to stream instead of saving to slow disk
+    }
+
     request.reply({ 
         greeting: 'POST hello to ' + request.payload.name
     });
@@ -26,7 +41,8 @@ var postHelloConfig = {
     validate: { 
         payload: { 
             name: Hapi.types.String().required(), 
-            id: Hapi.types.Number().optional().min(100).max(999999999)
+            id: Hapi.types.Number().optional().min(100).max(999999999),
+            uploadFile: Hapi.types.Object().optional()
     } }
 };
 

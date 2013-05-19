@@ -74,7 +74,11 @@
 
 	<a id="files"></a>
 	<h3>File Uploads</h3>
-	TODO
+	<form class="form-inline" action="/hello" type="multipart/form-data">
+	<input type="text" name="name" value="" placeholder="name" />
+	<input type="file" name="uploadFile" placeholder="file" />
+	<button class="btn" onclick="return sendFormFromHTML(this.form);">Submit HTML form via XHR with file</button>
+	</form>
 
 	<a id="canvas"></a>
 	<h3>Canvas</h3>
