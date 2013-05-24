@@ -36,10 +36,10 @@
               <li class="active"><a href="#forms">HTML Forms</a></li>
               <li><a href="#xhr">XHR</a></li>
               <li><a href="#files">File Upload</a></li>
-              <li><a href="#canvas">Canvas</a></li>
+              <li><a href="#draw">Canvas</a></li>
               <li><a href="#audio">Audio</a></li>
               <li><a href="#screenshots">Screenshot</a></li>
-              <li><a href="#canvas">Video</a></li>
+              <li><a href="#video">Video</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -80,9 +80,14 @@
 	<button class="btn" onclick="return sendFormFromHTML(this.form);">Submit HTML form via XHR with file</button>
 	</form>
 
-	<a id="canvas"></a>
+	<a id="draw"></a>
 	<h3>Canvas</h3>
-	TODO
+	<div id="canvas">Click to draw<br/></div>
+	<form class="form-inline" action="/hello" method="POST" type="multipart/form-data">
+	<input type="text" name="name" value="" placeholder="name" />
+	<button class="btn" onclick="return sendCanvasFromHTML(this.form);">Submit canvas as an upload file</button>
+	</form>
+
 
 	<a id="audio"></a>
 	<h3>Audio</h3>
@@ -104,7 +109,9 @@
 		<li><a href="http://www.html5rocks.com/en/tutorials/file/xhr2/">New Tricks in XMLHttpRequest2</a></li>
 		<li><a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">Reading files in JavaScript using the File APIs</a></li>
 		<li><a href="http://www.html5rocks.com/en/tutorials/getusermedia/intro/">Capturing Audio &amp; Video in HTML5</a></li>
+		<li><a href="http://jsfiddle.net/ArtBIT/kneDX/">JSFIDDLE for simple canvas drawing</a></li>
 		<!-- <li><a href="http://twitter.github.io/bootstrap/examples/starter-template.html">Twitter Bootstrap Template</a></li> -->
+		<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/FormData/Using_FormData_Objects?redirectlocale=en-US&redirectslug=DOM%2FXMLHttpRequest%2FFormData%2FUsing_FormData_Objects">Using FormData Objects</a></li>
 	</ul>
 
     </div> <!-- /container -->
@@ -127,7 +134,6 @@
 		return false;
 	}
 
-
 	function sendFormOnTheFly() {
 		var formData = new FormData();
 		formData.append('name', 'paul');
@@ -147,6 +153,91 @@
 		xhr.send(JSON.stringify(formData));
 	}
 
+	function sendCanvasFromHTML(form) {
+		var canvas = document.getElementById('innerCanvas');
+		var dataURL = canvas.toDataURL();
+		var file = dataURLtoBlob(dataURL);
+		var formData = new FormData(form);
+		formData.append('id', '123456');
+		formData.append('uploadFile', file, 'canvas.png');
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', form.action, true);
+		xhr.onload = function(e) { alert(this.responseText) };
+		xhr.send(formData);
+		return false;
+	}
+
+	// Convert dataURL to Blob object
+	// See http://mitgux.com/send-canvas-to-server-as-file-using-ajax
+	function dataURLtoBlob(dataURL) {
+		// Decode the dataURL
+		var binary = atob(dataURL.split(',')[1]);
+		// Create 8-bit unsigned array
+		var array = [];
+		for(var i = 0; i < binary.length; i++) {
+			array.push(binary.charCodeAt(i));
+		}
+		// Return our Blob object
+		return new Blob([new Uint8Array(array)], {type: 'image/png'});
+	}
+
+	(function() {
+	// See http://jsfiddle.net/ArtBIT/kneDX/
+    // Creates a new canvas element and appends it as a child
+    // to the parent element, and returns the reference to
+    // the newly created canvas element
+
+	    function createCanvas(parent, width, height) {
+	        var canvas = {};
+	        canvas.node = document.createElement('canvas');
+	        canvas.node.id = "innerCanvas";
+	        canvas.context = canvas.node.getContext('2d');
+	        canvas.node.width = width || 100;
+	        canvas.node.height = height || 100;
+	        parent.appendChild(canvas.node);
+	        return canvas;
+	    }
+
+	    function init(container, width, height, fillColor) {
+	        var canvas = createCanvas(container, width, height);
+	        var ctx = canvas.context;
+	        // define a custom fillCircle method
+	        ctx.fillCircle = function(x, y, radius, fillColor) {
+	            this.fillStyle = fillColor;
+	            this.beginPath();
+	            this.moveTo(x, y);
+	            this.arc(x, y, radius, 0, Math.PI * 2, false);
+	            this.fill();
+	        };
+	        ctx.clearTo = function(fillColor) {
+	            ctx.fillStyle = fillColor;
+	            ctx.fillRect(0, 0, width, height);
+	        };
+	        ctx.clearTo(fillColor || "#e8e8e8");
+
+	        // bind mouse events
+	        canvas.node.onmousemove = function(e) {
+	            if (!canvas.isDrawing) {
+	               return;
+	            }
+	            var x = e.pageX - this.offsetLeft;
+	            var y = e.pageY - this.offsetTop;
+	            var radius = 2; // or whatever
+	            var fillColor = '#000';
+	            ctx.fillCircle(x, y, radius, fillColor);
+	        };
+	        canvas.node.onmousedown = function(e) {
+	            canvas.isDrawing = true;
+	        };
+	        canvas.node.onmouseup = function(e) {
+	            canvas.isDrawing = false;
+	        };
+	    }
+
+	    var container = document.getElementById('canvas');
+	    init(container, 150, 150, '#ddd');
+	})();
     </script>
 
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> -->

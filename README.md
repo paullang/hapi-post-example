@@ -24,7 +24,7 @@ POST
     should respond with
     {"greeting":"POST hello Paul2"}
 
-POST via XHR examples
+XHR POST examples for FormData, file uploads, HTML5 canvas blobs, and more
 
 See [http://localhost:8000/examples.html] (http://localhost:8000/examples.html "examples")
 

@@ -20,7 +20,6 @@ var helloPostHandler = function(request) {
 
     if (request.payload.uploadFile) {
         var f = request.payload.uploadFile;
-        //console.log(f);
         console.log("uploadFile " + f.originalFilename + " (" + f.size + " bytes) at " + f.path);
         console.log("that you should persist to storage and remove from temp folder");
         // Use fs for this one: http://nodejs.org/api/fs.html
@@ -28,7 +27,6 @@ var helloPostHandler = function(request) {
             if (err) throw err;
                 console.log('successfully deleted ' + f.path);
         });
-        // TODO: find way to stream instead of saving to slow disk
     }
 
     request.reply({ 
