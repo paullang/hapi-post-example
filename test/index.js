@@ -17,7 +17,6 @@ specify('hello_post', function(assert){
 	var postMissingFields = { uri: "http://localhost:8000/hello", method: "POST", json: true };
 	request(postMissingFields, function (err, resp, body) {
 		assert.equal(err,null);
-		console.log("body: " + body)
 		assert.equal(resp.statusCode, 400);
 	});
 
@@ -25,7 +24,6 @@ specify('hello_post', function(assert){
 	var validPost = { uri: "http://localhost:8000/hello", method: "POST", form: formData, json: true };
 	request(validPost, function (err, resp, body) {
 		assert.equal(err,null);
-		console.log("body: " + body)
 		assert.equal(body.greeting, "POST hello to " + name);
 	});
 });
