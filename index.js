@@ -1,4 +1,5 @@
 var Hapi = require('hapi');
+var Joi = require('joi');
 var Fs = require('fs');
 
 // Create a server with a host and port
@@ -6,15 +7,15 @@ var server = Hapi.createServer('localhost', 8000);
 
 // Define the route
 var getHelloConfig = {
-    handler: function (request) {
-        request.reply({ greeting: 'hello ' + request.query.name });
+    handler: function (request, reply) {
+        reply({ greeting: 'hello ' + request.query.name });
     },
     validate: {
-        query: { name: Hapi.types.String().required() } 
+        query: { name: Joi.string(2).min(1).required() } 
     }
 };
 
-var helloPostHandler = function(request) {
+var helloPostHandler = function(request, reply) {
     //console.log("rawPayload: " + request.rawPayload);
     console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
 
@@ -29,7 +30,7 @@ var helloPostHandler = function(request) {
         });
     }
 
-    request.reply({ 
+    reply({ 
         greeting: 'POST hello to ' + request.payload.name
     });
 }
@@ -38,9 +39,9 @@ var postHelloConfig = {
     handler: helloPostHandler, 
     validate: { 
         payload: { 
-            name: Hapi.types.String().required(), 
-            id: Hapi.types.Number().optional().min(100).max(999999999),
-            uploadFile: Hapi.types.Object().optional()
+            name: Joi.string().min(1).required(), 
+            id: Joi.number().min(100).max(999999999),
+            uploadFile: Joi.object().optional()
     } }
 };
 
