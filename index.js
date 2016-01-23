@@ -1,12 +1,15 @@
-var Hapi = require('hapi');
-var Joi = require('joi');
-var Fs = require('fs');
+const Hapi = require('hapi');
+const Inert = require('inert');
+const Joi = require('joi');
+const Fs = require('fs');
 
 // Create a server with a host and port
-var server = Hapi.createServer('localhost', 8000);
+const server = new Hapi.Server();
+server.connection({ port: 8000 });
+server.register(Inert, () => {});
 
 // Define the route
-var getHelloConfig = {
+const getHelloConfig = {
     handler: function (request, reply) {
         reply({ greeting: 'hello ' + request.query.name });
     },
@@ -15,12 +18,12 @@ var getHelloConfig = {
     }
 };
 
-var helloPostHandler = function(request, reply) {
+const helloPostHandler = function(request, reply) {
     //console.log("rawPayload: " + request.rawPayload);
     console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
 
     if (request.payload.uploadFile) {
-        var f = request.payload.uploadFile;
+        const f = request.payload.uploadFile;
         console.log("uploadFile " + f.originalFilename + " (" + f.size + " bytes) at " + f.path);
         console.log("that you should persist to storage and remove from temp folder");
         // Use fs for this one: http://nodejs.org/api/fs.html
@@ -35,7 +38,7 @@ var helloPostHandler = function(request, reply) {
     });
 }
 
-var postHelloConfig = {
+const postHelloConfig = {
     handler: helloPostHandler, 
     validate: { 
         payload: { 
@@ -64,7 +67,7 @@ server.route([{
     },
     {
         method: 'GET',
-        path: '/{path*}',
+        path: '/{param*}',
         handler: {
             directory: { path: './public', listing: false, index: true }
         }
@@ -72,4 +75,10 @@ server.route([{
 ]);
 
 // Start the server
-server.start();
+server.start((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Server running at:', server.info.uri);
+ });
+ 

@@ -4,7 +4,7 @@ After downloading, run the following to download the node_modules
 
     npm install
 
-Please make sure you have node >= 0.10.5
+Please make sure you have node >= 4.0.0
 
     node -v
 
