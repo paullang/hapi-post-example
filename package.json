@@ -1,6 +1,6 @@
 {
   "name": "hapi-post-example",
-  "version": "12.1.0",
+  "version": "13.4.1",
   "description": "HTTP POST example routes for hapi",
   "main": "index.js",
   "scripts": {
@@ -13,12 +13,12 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "hapi": "12.1.0",
-    "inert": "3.2.0",
-    "joi": "7.2.2"
+    "hapi": "13.4.1",
+    "inert": "4.0.0",
+    "joi": "8.1.0"
   },
   "devDependencies": {
     "specify": "1.3.0",
-    "request": "2.67.0"
+    "request": "2.72.0"
   }
 }
