@@ -19,18 +19,11 @@ const getHelloConfig = {
 };
 
 const helloPostHandler = function(request, reply) {
-    //console.log("rawPayload: " + request.rawPayload);
     console.log("Received POST from " + request.payload.name + "; id=" + (request.payload.id || 'anon'));
 
     if (request.payload.uploadFile) {
-        const f = request.payload.uploadFile;
-        console.log("uploadFile " + f.originalFilename + " (" + f.size + " bytes) at " + f.path);
-        console.log("that you should persist to storage and remove from temp folder");
-        // Use fs for this one: http://nodejs.org/api/fs.html
-        Fs.unlink(f.path, function (err) {
-            if (err) throw err;
-                console.log('successfully deleted ' + f.path);
-        });
+        const byteLength = Buffer.byteLength(request.payload.uploadFile);
+        console.log('Persist Buffer here. Size=' + byteLength);
     }
 
     reply({ 
